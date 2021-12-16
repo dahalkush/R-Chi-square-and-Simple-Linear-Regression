@@ -1,0 +1,98 @@
+---
+title: "Final Take Home"
+author: "Kushal"
+date: "12/13/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+#Problem 11.23
+
+#reading the data
+
+```{r}
+children <- read.csv("Children.csv", header = TRUE)
+infants <- read.csv("Infants.csv", header = TRUE)
+adults <- read.csv("adults.csv", header = TRUE)
+
+```
+
+##building the models using regression for each dataset
+
+```{r}
+modelchildren <- lm(Volume~Weight, data = children)
+modelinfants <- lm(Volume~Weight, data = infants)
+modeladults <- lm(Volume~Weight, data = adults)
+
+
+```
+
+#for children
+```{r}
+summary(modelchildren)
+```
+#child weighing 18 kg:
+
+V=>0.01807+0.36071 * 18= 6.51
+
+#for infants
+```{r}
+summary(modelinfants)
+```
+#infant weighing 9 kg:
+
+V=>0.5040+ 0.3431 * 9= 3.59
+
+#for adults
+```{r}
+summary(modeladults)
+```
+ 
+#adult weighing 78 kg:
+
+V=11.7495+0.1374 * 78= 22.46
+
+#Problem 12.17
+
+```{r}
+ci <- matrix(c(72,230,54,192,16,63,8,15), ncol=4, byrow=TRUE)
+
+rownames(ci) <- c("Carriers", "Noncarriers")
+
+colnames(ci) <- c("0","A","B","AB")
+
+```
+#chi square implementation
+```{r}
+
+ci<- as.table(ci)
+
+chi <- chisq.test(ci)
+
+chi$expected 
+
+chi
+
+```
+
+# Chi-Square Test of Independence:
+
+Ho: no relationship between blood type and one is a carrier or a non-carrier.
+
+Ha: relationship between blood type and one is a carrier or a non-carrier.
+
+P-value: 0.0002246
+
+Conclusion: Reject Ho in favor of Ha. 
+
+
+#Now conducting the Post-Hoc Analysis below
+
+```{r}
+rowsum <- rowSums (ci, na.rm = FALSE, dims = 1)
+
+barplot(ci/rowsum, ylim = c(0,0.65), ylab = "Percents", beside = TRUE, legend = TRUE)
+
+```
+
